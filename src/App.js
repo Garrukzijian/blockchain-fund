@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import contract from './contracts/abi.json';
 import {Container, Message, Card, Statistic, Button, Input, Label,Form} from 'semantic-ui-react'
 
-const contractAddress = "0x48183520A6f2d4487E68777A28D086e1A4ffC68b";
+const contractAddress = "0x3AF900DA1a50203EE7FEFe12ebcDc19432cb4005";
 const abi = contract;
 
 
@@ -18,6 +18,7 @@ function App() {
   const [detail,setDetail] = useState('');
   const [donateNumber,setDonateNumber] = useState('');
   const [numberCheck,setNumberCheck] = useState('');
+  const [moneyhave,setMoneyhave] = useState('');
 
   const checkWalletIsConnected = async () => {
     const {ethereum}=window;
@@ -94,8 +95,9 @@ function App() {
         setLastname(nftT[1]);
         setDetail(nftT[2]);
         setEmail(nftT[3]);
+        setMoneyhave(nftT[5].toNumber());
         console.log(nftT);
-        console.log("moneyRequire",moneyRequire);
+        console.log(moneyhave);
       }else{
         console.log("Ethereum object does not exist!")
       }
@@ -167,6 +169,10 @@ function App() {
               <Statistic color='yellow'>
                 <Statistic.Value>{donateNumber}</Statistic.Value>
                 <Statistic.Label>founder</Statistic.Label>
+              </Statistic>
+              <Statistic color='blue'>
+                <Statistic.Value>{moneyhave}</Statistic.Value>
+                <Statistic.Label>money already get</Statistic.Label>
               </Statistic>
               <Form>
                 <Input labelPosition='right' type='text' placeholder='Amount'>
