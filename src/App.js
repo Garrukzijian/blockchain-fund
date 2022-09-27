@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import contract from './contracts/abi.json';
 import {Container, Message, Card, Statistic, Button, Input, Label,Form} from 'semantic-ui-react'
 
-const contractAddress = "0x50936D23D626BaFDAe3894aA6Cfe32F92ab0cccF";
+const contractAddress = "0x48183520A6f2d4487E68777A28D086e1A4ffC68b";
 const abi = contract;
 
 
@@ -179,22 +179,6 @@ function App() {
                 </Button>
               </Form>
             </Card>
-            {/*<Card>*/}
-            {/*  <Card*/}
-            {/*      image='./images/logo.jpg'*/}
-            {/*      header='Water Found'*/}
-            {/*      meta='Funder'*/}
-            {/*      description='Water drop, which goes by Shuidihuzhu in China (translated as “water drop mutual help”).'*/}
-            {/*  />*/}
-            {/*  <Statistic color='red'>*/}
-            {/*    <Statistic.Value>20</Statistic.Value>*/}
-            {/*    <Statistic.Label>funder</Statistic.Label>*/}
-            {/*  </Statistic>*/}
-            {/*  <Button animated='fade' onClick={mintNftHandler}>*/}
-            {/*    <Button.Content visible>Click to Fund</Button.Content>*/}
-            {/*    <Button.Content hidden>1 eth to save life</Button.Content>*/}
-            {/*  </Button>*/}
-            {/*</Card>*/}
         </Card.Group>
         </Container>
       </div>
