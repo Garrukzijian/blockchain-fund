@@ -1,23 +1,23 @@
-import { useEffect } from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 import { ethers } from 'ethers';
 import contract from './contracts/abi.json';
-import {useState} from "react";
-import {Container, Message, Card, Icon, Statistic, Button} from 'semantic-ui-react'
+import {Container, Message, Card, Statistic, Button, Input, Label,Form} from 'semantic-ui-react'
 
-
-const contractAddress = "0x189B019C876b65D9a266d76898b8d98bD6bD3BB1";
+const contractAddress = "0x50936D23D626BaFDAe3894aA6Cfe32F92ab0cccF";
 const abi = contract;
 
-const extra = (
-    <a>
-      <Icon name='user' />
-      16 Friends
-    </a>
-)
-function App() {
 
+function App() {
   const [currentAccount, setCurrentAccount] = useState(null);
+  const [moneyRequire,setMoneyRequire] =useState('');
+  const [moneyDonate,setMoneyDonate] = useState('');
+  const [firstname,setFirstname] = useState('');
+  const [lastname,setLastname] = useState('');
+  const [email,setEmail] = useState('');
+  const [detail,setDetail] = useState('');
+  const [donateNumber,setDonateNumber] = useState('');
+  const [numberCheck,setNumberCheck] = useState('');
 
   const checkWalletIsConnected = async () => {
     const {ethereum}=window;
@@ -54,16 +54,52 @@ function App() {
 
   const mintNftHandler = async () => {
     try {
-      const {ethereum}=window;
-      if(ethereum){
-        const provider =new ethers.providers.Web3Provider(ethereum);
-        const signer =provider.getSigner();
-        const nftContract =new ethers.Contract(contractAddress,abi,signer);
+      const {ethereum} = window;
+      if (ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const nftContract = new ethers.Contract(contractAddress, abi, signer);
         console.log("Initialize payment");
-      }else {
+        console.log(nftContract);
+        const accounts = await ethereum.request({method: 'eth_requestAccounts'});
+        const account = accounts[0];
+        console.log(account);
+        console.log(moneyRequire);
+        let overrides = {
+          value: moneyDonate,
+        };
+        let nftTxn = await nftContract.contribute(account, numberCheck,overrides);
+        console.log("Please wait");
+        await nftTxn.wait();
+        console.log("Successful");
+      } else {
         console.log("Ethereum object does not exist!")
       }
-    }catch (err){
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const getProjectRefresh =async ()=>{
+    try {
+      const {ethereum}=window;
+      if(ethereum) {
+        const provider = new ethers.providers.Web3Provider(ethereum);
+        const signer = provider.getSigner();
+        const Contract = new ethers.Contract(contractAddress, abi, signer);
+        let nftT = await Contract.test(numberCheck);
+        setMoneyRequire(nftT[4].toNumber());
+        setDonateNumber(nftT[6].toNumber());
+        setFirstname(nftT[0]);
+        setLastname(nftT[1]);
+        setDetail(nftT[2]);
+        setEmail(nftT[3]);
+        console.log(nftT);
+        console.log("moneyRequire",moneyRequire);
+      }else{
+        console.log("Ethereum object does not exist!")
+      }
+    }catch (err) {
       console.log(err);
     }
   }
@@ -78,8 +114,8 @@ function App() {
 
   const mintNftButton = () => {
     return (
-        <button onClick={mintNftHandler} className='cta-button mint-nft-button'>
-          Mint NFT
+          <button onClick={getProjectRefresh} className='cta-button mint-nft-button'>
+          Get all project
         </button>
     )
   }
@@ -88,17 +124,31 @@ function App() {
     checkWalletIsConnected();
   }, [])
 
+
+  const handleMessageChange = ( e ) => {
+    setMoneyDonate(e.target.value );
+  };
+
+  const numberCheckMessageChange = ( e ) => {
+    setNumberCheck( e.target.value );
+  };
+
+
   return (
       <div className='main-app'>
-        <h1>Scrappy Squirrels Tutorial</h1>
+        <div>
+          <Input labelPosition='right' type='text' placeholder='Amount'>
+            <input type="number" placeholder="Please enter the donate you want to check" value={numberCheck} onChange={numberCheckMessageChange}/>
+          </Input>
+        </div>
         <div>
           {currentAccount ? mintNftButton() : connectWalletButton()}
         </div>
         <Container>
           <br/>
           <Message info>
-            <Message.Header>Was this what you wanted?</Message.Header>
-            <p>Did you know it's been a while?</p>
+            <Message.Header>One little step can help others.</Message.Header>
+            <p>Kindness helps</p>
           </Message>
 
           <Card.Group>
@@ -106,36 +156,45 @@ function App() {
               <Card
                   image='./images/logo.jpg'
                   header='Water Found'
-                  meta='Funder'
-                  description='Water drop, which goes by Shuidihuzhu in China (translated as “water drop mutual help”).'
-                  extra={extra}
+                  meta={email}
+                  description={detail}
+                  extra={firstname+"  "+lastname}
               />
               <Statistic color='red'>
-                <Statistic.Value>27</Statistic.Value>
-                <Statistic.Label>funder</Statistic.Label>
+                <Statistic.Value>{moneyRequire}</Statistic.Value>
+                <Statistic.Label>Need</Statistic.Label>
               </Statistic>
-              <Button animated='fade'>
-                <Button.Content visible>Click to Fund</Button.Content>
-                <Button.Content hidden>1 eth to save life</Button.Content>
-              </Button>
-            </Card>
-            <Card>
-              <Card
-                  image='./images/logo.jpg'
-                  header='Water Found'
-                  meta='Funder'
-                  description='Water drop, which goes by Shuidihuzhu in China (translated as “water drop mutual help”).'
-                  extra={extra}
-              />
-              <Statistic color='red'>
-                <Statistic.Value>20</Statistic.Value>
-                <Statistic.Label>funder</Statistic.Label>
+              <Statistic color='yellow'>
+                <Statistic.Value>{donateNumber}</Statistic.Value>
+                <Statistic.Label>founder</Statistic.Label>
               </Statistic>
-              <Button animated='fade'>
-                <Button.Content visible>Click to Fund</Button.Content>
-                <Button.Content hidden>1 eth to save life</Button.Content>
-              </Button>
+              <Form>
+                <Input labelPosition='right' type='text' placeholder='Amount'>
+                  <Label basic>Wei</Label>
+                  <input type="number" placeholder="Please enter money you want to donate" value={moneyDonate} onChange={handleMessageChange}/>
+                </Input>
+                <Button animated='fade' onClick={mintNftHandler}>
+                  <Button.Content visible>Click to Fund</Button.Content>
+                  <Button.Content hidden>1 eth to save life</Button.Content>
+                </Button>
+              </Form>
             </Card>
+            {/*<Card>*/}
+            {/*  <Card*/}
+            {/*      image='./images/logo.jpg'*/}
+            {/*      header='Water Found'*/}
+            {/*      meta='Funder'*/}
+            {/*      description='Water drop, which goes by Shuidihuzhu in China (translated as “water drop mutual help”).'*/}
+            {/*  />*/}
+            {/*  <Statistic color='red'>*/}
+            {/*    <Statistic.Value>20</Statistic.Value>*/}
+            {/*    <Statistic.Label>funder</Statistic.Label>*/}
+            {/*  </Statistic>*/}
+            {/*  <Button animated='fade' onClick={mintNftHandler}>*/}
+            {/*    <Button.Content visible>Click to Fund</Button.Content>*/}
+            {/*    <Button.Content hidden>1 eth to save life</Button.Content>*/}
+            {/*  </Button>*/}
+            {/*</Card>*/}
         </Card.Group>
         </Container>
       </div>

@@ -27,8 +27,8 @@
     ],
     "name": "IScompelete",
     "outputs": [],
-    "payable": false,
-    "stateMutability": "nonpayable",
+    "payable": true,
+    "stateMutability": "payable",
     "type": "function"
   },
   {
@@ -41,6 +41,22 @@
       {
         "name": "_goal",
         "type": "uint256"
+      },
+      {
+        "name": "detial",
+        "type": "string"
+      },
+      {
+        "name": "firstname",
+        "type": "string"
+      },
+      {
+        "name": "lastname",
+        "type": "string"
+      },
+      {
+        "name": "email",
+        "type": "string"
       }
     ],
     "name": "NewNeeder",
@@ -52,8 +68,62 @@
   {
     "constant": true,
     "inputs": [],
+    "name": "all",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "name": "pendingReturns",
+    "outputs": [
+      {
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "payable": false,
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "constant": true,
+    "inputs": [
+      {
+        "name": "a",
+        "type": "uint256"
+      }
+    ],
     "name": "test",
     "outputs": [
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
+      {
+        "name": "",
+        "type": "string"
+      },
       {
         "name": "",
         "type": "uint256"
