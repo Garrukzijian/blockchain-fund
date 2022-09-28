@@ -4,7 +4,7 @@ import { ethers } from 'ethers';
 import contract from './contracts/abi.json';
 import {Container, Message, Card, Statistic, Button, Input, Label,Form} from 'semantic-ui-react'
 
-const contractAddress = "0x3AF900DA1a50203EE7FEFe12ebcDc19432cb4005";
+const contractAddress = "0xa00312095A9019F1A5E12401701B21037D736290";
 const abi = contract;
 
 
