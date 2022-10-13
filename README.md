@@ -1,3 +1,8 @@
+# Other end of this Dapp
+Frontend-founder:https://github.com/Garrukzijian/block-front
+
+Frontend-admin:https://github.com/Garrukzijian/admin
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
